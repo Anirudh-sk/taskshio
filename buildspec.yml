@@ -1,0 +1,19 @@
+version: 0.2
+phases:
+    install:
+        runtime-version:
+            nodejs: 12
+        commands:
+            - npm install
+    build:
+        commands:
+            - npm run build
+    post_build:
+         commands:
+            - aws s3 rm s3://output-teste --recursive
+            - aws s3 cp build/ s3://output-teste --recursive
+artifacts:
+    files:
+        - '**/*'
+    base-directory: 'build*'
+    discard-paths: yes
